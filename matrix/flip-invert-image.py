@@ -1,4 +1,4 @@
-def flipAndInvertImage(image):
+def flipAndInvertImage(image: List[List[int]]):
     for row in image:
         print(row[::-1])
     
