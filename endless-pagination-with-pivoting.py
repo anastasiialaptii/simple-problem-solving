@@ -1,19 +1,31 @@
-dblist = [13, 5, 6, 54, 82, 39, 11, 69, 96, 32, 48, 18, 45, 77, 99]
-
-def getPage(dbList, pivotID, pageSize, pageNum):
-    startIndex = dbList.index(pivotID)
-    dbList = dbList[startIndex:] + dbList[:startIndex]
-
-    startPos = pageNum * pageSize
-    endPos = startPos + pageSize
-
-    if endPos < len(dbList):
-        return dbList[startPos:endPos]
-    elif startPos < len(dbList):
-        return dbList[startPos:]
+def getEndlessPageByCursor(dbList, pageSize, cursor=None):
+    if not dbList:
+        return [], None
+    
+    totalItems = len(dbList)
+    
+    if cursor is None:
+        startIndex = 0
     else:
-        return []
+        try:
+            startIndex = dbList.index(cursor)
+            print(startIndex)
+        except ValueError:
+            startIndex = 0
+    
+    page = []
+    nextCursor = None
+    
+    for i in range(pageSize):
+        index = (startIndex + i) % totalItems
+        page.append(dbList[index])
+    
+    nextCursorIndex = (startIndex + pageSize) % totalItems
+    nextCursor = dbList[nextCursorIndex]
+    
+    return page, nextCursor
 
-print("PageNum Page")
-for i in range(10):
-    print("{}\t{}".format(i, getPage(dblist, 69, 2, i)))
+dbList = ['A', 'B', 'C', 'D', 'E', 'R', 'W']
+
+page2, cursor2 = getEndlessPageByCursor(dbList, 9, dbList[1])
+print(f"Page 2: {page2}, Next cursor: {cursor2}")
