@@ -1,1 +1,1 @@
-Solving probems in some spare time - mostly on leetcode. 
+Solving problems in some spare time - mostly on leetcode. 
